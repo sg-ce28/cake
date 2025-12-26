@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>The Flag is Cake</title>
+    <style>
+        body {
+            font-family: sans-serif;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            background-color: #f0f0f0;
+            padding: 50px;
+        }
+        .container {
+            position: relative;
+            width: 400px;
+            height: 250px;
+            user-select: none;
+        }
+        .cake {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: #fff;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            word-break: break-all;
+            padding: 20px;
+            box-sizing: border-box;
+            z-index: 1;
+            font-family: monospace;
+            font-size: 14px;
+        }
+        #scratch-canvas {
+            position: absolute;
+            top: 0;
+            left: 0;
+            z-index: 2;
+            cursor: default;
+            touch-action: none;
+        }
+        .flag-text {
+            margin-top: 20px;
+            font-weight: bold;
+            font-size: 1.5rem;
+        }
+        .important {
+            display: none;
+        }
+    </style>
+</head>
+<body>
+
+    <h1 class="important">{ol'mshn'pzu{'olyl</h1>
+    <p class="important">gplq{"vjku"ecmg"yjkng"{qw"vt{"vq"uqnxg"vjg"hnci."d{"vjg"yc{"kv"ku"pqv"$hwp$</p>
+    <div class="important">	nls bupcha soil giomy "yun nby wuey"</div>
+
+    <div class="container">
+        <div class="cake">
+            <div>
+                U2FsdGVkX1/NC5AEimjcb2jVeZQ79AosWSa3XK+S+iI=<br>
+                0a59a2f2-a40f-4881-8f0f-1c648c1e27b0
+            </div>
+        </div>
+        <canvas id="scratch-canvas" width="400" height="250"></canvas>
+    </div>
+
+    <p class="flag-text">The flag is cake</p>
+
+    <h2 hidden>Hidden metadata tracker: Version 1.0.4</h2>
+
+    <script>
+        const canvas = document.getElementById('scratch-canvas');
+        const ctx = canvas.getContext('2d');
+        let isDrawing = false;
+
+        function init() {
+            const cakeImg = new Image();
+            cakeImg.src = 'https://images.unsplash.com/photo-1578985545062-69928b1d9587?w=400&h=250&fit=crop';
+            cakeImg.crossOrigin = "Anonymous";
+            
+            cakeImg.onload = function() {
+                ctx.drawImage(cakeImg, 0, 0, canvas.width, canvas.height);
+            };
+        }
+
+        function scratch(e) {
+            if (!isDrawing) return;
+            const rect = canvas.getBoundingClientRect();
+            const x = (e.clientX || (e.touches && e.touches[0].clientX)) - rect.left;
+            const y = (e.clientY || (e.touches && e.touches[0].clientY)) - rect.top;
+
+            ctx.globalCompositeOperation = 'destination-out';
+            ctx.beginPath();
+            // Smaller scratch area (radius set to 8)
+            ctx.arc(x, y, 8, 0, Math.PI * 2);
+            ctx.fill();
+        }
+
+        canvas.addEventListener('mousedown', () => isDrawing = true);
+        window.addEventListener('mouseup', () => isDrawing = false);
+        canvas.addEventListener('mousemove', scratch);
+        
+        canvas.addEventListener('touchstart', (e) => { isDrawing = true; scratch(e); });
+        canvas.addEventListener('touchend', () => isDrawing = false);
+        canvas.addEventListener('touchmove', (e) => { e.preventDefault(); scratch(e); });
+
+        init();
+    </script>
+</body>
+</html>
